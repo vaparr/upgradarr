@@ -109,6 +109,13 @@ def getCodec(movie):
 
     return codec
 
+def isx265(movie):
+
+    codec = getCodec(movie)
+    if (codec.startswith('x265') or codec.startswith('HEVC')):
+        return True
+    return False
+
 def refreshMovie(movie):
     print (f"-- ID {movie['id']}: Exception received reading codec for {movie['title']} ({movie['year']}) triggering RefreshMovie.")
     params = {'name':"RefreshMovie", 'movieIds':[movie['id']]}
@@ -207,16 +214,18 @@ searchkey = getSearchKey()
 allMoviesJSON = getAllMovies()
 
 # for each movie
+
+totalMovies = len(allMoviesJSON)
+currentMovie = 0
 for movie in allMoviesJSON:
     movieID = movie['id']
-    print (f"\n{color.RED}=== ID {movieID}: {movie['title']} ({movie['year']}) ==={color.END}")
-
+    currentMovie = currentMovie +1
+    percent = round((currentMovie / totalMovies) * 100, 2)
+    print (f"\n{color.RED}=== ID {movieID} {color.YELLOW}({currentMovie}/{totalMovies} {percent}%){color.RED}: {movie['title']} ({movie['year']}) ==={color.END}")
     if shouldSkipMovie(movie):
         continue
 
-    codec = getCodec(movie)
-
-    if not codec.startswith('x265'):
+    if not isx265(movie):
         print (f"-- ID {movieID}: NOT x265, triggering MoviesSearch API.")
         if searchMovie(movie) == True:
             print (f"-- ID {movieID}: Success. Waiting for {str(history_delay)} seconds before checking Radarr history.")
