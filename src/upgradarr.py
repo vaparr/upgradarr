@@ -11,7 +11,6 @@ from datetime import datetime,timedelta
 import functools
 print = functools.partial(print, flush=True)
 
-
 class color:
    PURPLE = '\033[1;35;48m'
    CYAN = '\033[1;36;48m'
@@ -24,15 +23,13 @@ class color:
    UNDERLINE = '\033[4;37;48m'
    END = '\033[1;37;0m'
 
-# Radarr API Key, get it in Settings->General->Security of Sonarr pages
+
 try:
-    apiKey = os.environ["APIKEY"]
-# Radarr Host Name: Add reverse proxy or direct IP:port, no trailing slash
-    hostName = os.environ["HOST"]
+    apiKey = os.environ["APIKEY"]   # Radarr API Key, get it in Settings->General->Security of Radarr pages
+    hostName = os.environ["HOST"]   # Radarr Host Name: Add reverse proxy or direct IP:port, no trailing slash
 except KeyError:
     print("Please set HOST and APIKEY variables")
     quit()
-
 
 search_delay = int(os.environ.get("SEARCH_DELAY", "900"))
 history_delay = int(os.environ.get("HISTORY_DELAY","90"))
@@ -105,7 +102,6 @@ def getCodec(movie):
 
         except Exception:
             codec = ""
-
 
     return codec
 
@@ -237,5 +233,3 @@ for movie in allMoviesJSON:
             addToUpgradedFile(movie)
         else:
             print(f"-- ID {movieID}: movie is already x265. Moving on.")
-
-
