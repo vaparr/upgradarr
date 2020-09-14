@@ -134,8 +134,11 @@ def searchMovie(movie):
     searchKey.close
     return True
 
-def checkHealth():   
+def updateHealth(): 
+    params = {'name':"CheckHealth"}
+    postData(hostName + "/api/v3/command?apikey=" + apiKey, params)
 
+def checkHealth():
     healthy = False # initialize before use
     while not healthy:
 
@@ -157,6 +160,7 @@ def checkHealth():
 
         if not healthy:
             print (f"{color.YELLOW}-- WARNING: {message}. Sleeping for {failure_delay} seconds.{color.END}")
+            updateHealth()
             time.sleep(failure_delay)
 
 def getSingleMovie(id):
