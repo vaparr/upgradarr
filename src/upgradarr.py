@@ -196,8 +196,8 @@ def checkHistory(movie):
     return
 
 def shouldSkipMovie(movie):
-    if not movie['hasFile']:
-        print(f"-- ID {movie['id']}: Movie not downloaded, SKIPPED.")
+    if not movie['monitored']:
+        print(f"-- ID {movie['id']}: Movie not monitored, SKIPPED.")
         return True
 
     if skip_path_contains:        
