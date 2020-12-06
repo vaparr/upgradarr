@@ -106,6 +106,9 @@ def getCodec(movie):
     return codec
 
 def isx265(movie):
+    if not movie['hasFile']:
+        print(f"-- ID {movie['id']}: Movie does not exist. Not x265")
+        return False
 
     codec = getCodec(movie)
     if (codec.startswith('x265') or codec.startswith('HEVC')):
